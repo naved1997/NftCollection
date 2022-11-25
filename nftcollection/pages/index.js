@@ -69,6 +69,39 @@ export default function Home() {
   };
 
 
+  const balanceOf = async () => {
+    try {
+    
+      const signer = await getProviderOrSigner(true);
+     
+      const nftContract = new Contract(NFT_CONTRACT_ADDRESS, abi, signer);
+ 
+      const tx = await nftContract.mint({
+ 
+        value: utils.parseEther("0.02"),
+      });
+      setLoading(true);
+
+      await tx.wait();
+      setLoading(false);
+      window.alert("You successfully minted a Crypto Dev!");
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const NFTofUser =()=> {
+    return(
+      <div>
+         <div className={styles.title}>
+            Your Minted NFT
+          </div>
+      <img className={styles.image} src="./cryptodevs/1.svg" />
+      </div> 
+ );
+  
+}
+
   const connectWallet = async () => {
     try {
    
@@ -298,6 +331,7 @@ export default function Home() {
        <div>
           <img className={styles.image} src="./cryptodevs/0.svg" />
           </div>
+          {NFTofUser()}
           </div>
       
 
