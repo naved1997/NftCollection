@@ -91,7 +91,7 @@ export const ChainConfig = {
     },
   },
 
-  mumbai: {
+  matic: {
     testnet: {
       address: "0x5e0ff90802EBa86ab3DaBDb425E3220095258363".toLowerCase(),
       ChainConfig: {
