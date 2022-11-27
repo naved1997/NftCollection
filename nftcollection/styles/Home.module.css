@@ -20,6 +20,16 @@
   height: 50%;
   margin-left: 20%;
 }
+.nftImage {
+  width: 290px;
+  height: 290px;
+}
+.nfttext {
+  font-size: 2rem;
+}
+.nft {
+  align-content: center;
+}
 
 .title {
   font-size: 2rem;

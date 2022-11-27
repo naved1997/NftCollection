@@ -25,6 +25,7 @@ export default function Home() {
   const [tokenIdsMinted, setTokenIdsMinted] = useState("0");
   const web3ModalRef = useRef();
   const [account, updateAccount] = useState(null);
+  const [balance, updateBalance] = useState(null);
 
 
 
@@ -71,34 +72,31 @@ export default function Home() {
 
   const balanceOf = async () => {
     try {
-    
-      const signer = await getProviderOrSigner(true);
+      getUserAddress();
+      const provider = await getProviderOrSigner();
      
-      const nftContract = new Contract(NFT_CONTRACT_ADDRESS, abi, signer);
+      const nftContract = new Contract(NFT_CONTRACT_ADDRESS, abi, provider);
  
-      const tx = await nftContract.mint({
- 
-        value: utils.parseEther("0.02"),
-      });
-      setLoading(true);
-
-      await tx.wait();
-      setLoading(false);
-      window.alert("You successfully minted a Crypto Dev!");
+      const tx = await nftContract.balanceOf(account);
+     // console.log(tx)
+      const number = tx.toString();
+     // console.log(number, "conversion")
+     updateBalance(number);
     } catch (err) {
       console.error(err);
     }
   };
 
   const NFTofUser =()=> {
+    balanceOf();
+    if(balance>0){
     return(
-      <div>
-         <div className={styles.title}>
-            Your Minted NFT
-          </div>
-      <img className={styles.image} src="./cryptodevs/1.svg" />
+      <div className={styles.nft} >
+        <div className={styles.nfttext} >Your Minted NFT </div>
+      <img className={styles.nftImage} src="./NFT-ELVILA.jpg" />
+     
       </div> 
- );
+ );}
   
 }
 
@@ -166,6 +164,18 @@ export default function Home() {
     } catch (err) {
       console.error(err);
       return false;
+    }
+  };
+
+
+  const getUserAddress = async () => {
+    try {
+      const signer = await getProviderOrSigner(true);
+      const address = await signer.getAddress();
+      updateAccount(address);
+    } catch (err) {
+      console.error(err.message);
+
     }
   };
 
